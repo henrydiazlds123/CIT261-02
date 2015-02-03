@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>JSON Object Creation in JavaScript</h2>
+<form>
+	<p>Enter your name:		<input type="text" id="name"></p>
+	<p>Enter your address:	<input type="text" id="street"></p>
+	<p>Enter your phone:		<input type="text" id="phone"></p>
+
+	<button type="button" onclick="create_JSON()">Create JSON</button>
+</form>
+
+<p id="demo"></p>
+
+<script>
+function create_JSON() {
+	//Creating a Object
+	var Contact = {
+		Name: 	document.getElementById("name").value,
+		Address: document.getElementById("street").value,
+		Phone: 	document.getElementById("phone").value
+	};
+	//Converting a array variable into JSON Notation
+	var myJSONText = JSON.stringify(Contact);
+
+	//Printing
+	alert(myJSONText);
+
+	//Converting a JSON Notation in variables
+	var object = JSON.parse(myJSONText);
+
+	//Printing
+	alert(object.Name + "\n" +
+			object.Address + "\n" +
+			object.Phone);
+
+	document.getElementById("demo").innerHTML =
+	object.Name + "<br>" +
+	object.Address + "<br>" +
+	object.Phone;
+}
+</script>
+
+</body>
+</html>
