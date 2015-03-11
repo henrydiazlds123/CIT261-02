@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width,  initial-scale=1.0">
+      <title>Report | CoinTracker</title>
+      <script src="js/jquery.min.js"></script>
+    
+      <!-- CSS styles -->
+      <link rel="stylesheet" href="css/style.css">
+
+   </head>
+
+   <body onload="report()">
+      <h2>Transaction Keeper DataBase</h2>
+      <nav>
+   <a href="expense.html">Expenses</a>
+   <a href="income.html">Incomes</a>
+</nav>
+      <form id="transactions-form" role="form">
+      </form>
+      <table id="transactions-table">
+         <tr id="transactions-head">
+            <th>ID</th>
+            <th>Type</th>
+            <th>Category</th>
+            <th>Item</th>
+            <th>Amount</th>
+            <th>Date</th>
+            <th>Comments</th>
+         </tr>
+      </table>
+<script src="js/script.js"></script>
+
+   </body>
+
+</html>
