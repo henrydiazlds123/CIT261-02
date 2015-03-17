@@ -5,11 +5,50 @@
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width,  initial-scale=1.0">
       <title>CoinTracker</title>
-
+		<link rel="stylesheet" href="CSS/Mystyles2.css" media="screen">
    </head>
 
    <body>
-      <h1>Transaction Keeper DataBase</h1>
+   
+ <table style="width: 100%">
+	<tr>
+	<td class="padding"></td>
+	<td class="mainbody">
+	<table align="center">
+      <ul class="menu">
+
+	<li><a href="index.html" id="menu1"></a></li>
+	<li><a href="income.html" id="menu2"></a></li>
+	<li><a href="expense.html" id="menu3"></a></li>
+	<li><a href="report.html" id="menu4"></a></li>
+	<li><a href="#" id="menu5"></a></li>
+
+</ul> <!-- end .menu -->
+<script>
+if (window.XMLHttpRequest)
+  {// code for IE7+, Firefox, Chrome, Opera, Safari
+  xmlhttp=new XMLHttpRequest();
+  }
+else
+  {// code for IE6, IE5
+  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+xmlhttp.open("GET","menu.xml",false);
+xmlhttp.send();
+xmlDoc=xmlhttp.responseXML;
+
+document.getElementById("menu1").innerHTML=
+xmlDoc.getElementsByTagName("menu1")[0].childNodes[0].nodeValue;
+document.getElementById("menu2").innerHTML=
+xmlDoc.getElementsByTagName("menu2")[0].childNodes[0].nodeValue;
+document.getElementById("menu3").innerHTML=
+xmlDoc.getElementsByTagName("menu3")[0].childNodes[0].nodeValue;
+document.getElementById("menu4").innerHTML=
+xmlDoc.getElementsByTagName("menu4")[0].childNodes[0].nodeValue;
+document.getElementById("menu5").innerHTML=
+xmlDoc.getElementsByTagName("menu5")[0].childNodes[0].nodeValue;
+</script>
+	  <h1>Transaction Keeper DataBase</h1>
 
       <form id="transactions-form" role="form">
          <legend>Transaction Record / Edit</legend>
@@ -55,6 +94,9 @@
          </tr>
       </table>
       <script src="js/script.js"></script>
+	  </table>
+	  </td>
+	  <td class="padding"></td>
    </body>
 
 </html>
