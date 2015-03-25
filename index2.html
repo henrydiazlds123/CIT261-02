@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width,  initial-scale=1.0">
+      <title>CoinTracker</title>
+		<link rel="stylesheet" href="CSS/Mystyles3.css" media="screen">
+   </head>
+
+   <body>
+   
+    <ul class="menu">
+		<li><p id="menu1" onclick="welcome()">Home</p></li>
+		<li><p id="menu2" onclick="income()">Income</p></li>
+		<li><p id="menu3" onclick="expenses()">Expenses</p></li>
+		<li><p id="menu4" onclick="report()">Report</p></li>
+	</ul> <!-- end .menu -->
+<script>
+if (window.XMLHttpRequest)
+  {// code for IE7+, Firefox, Chrome, Opera, Safari
+  xmlhttp=new XMLHttpRequest();
+  }
+else
+  {// code for IE6, IE5
+  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+xmlhttp.open("GET","menu.xml",false);
+xmlhttp.send();
+xmlDoc=xmlhttp.responseXML;
+
+document.getElementById("menu1").innerHTML=
+xmlDoc.getElementsByTagName("menu1")[0].childNodes[0].nodeValue;
+document.getElementById("menu2").innerHTML=
+xmlDoc.getElementsByTagName("menu2")[0].childNodes[0].nodeValue;
+document.getElementById("menu3").innerHTML=
+xmlDoc.getElementsByTagName("menu3")[0].childNodes[0].nodeValue;
+document.getElementById("menu4").innerHTML=
+xmlDoc.getElementsByTagName("menu4")[0].childNodes[0].nodeValue;
+</script>
+
+<div id="outputarea">
+	  <h1>Welcome</h1><h1>to</h1><h1>Coin Trakker</h1>
+</div>
+      <script src="js/script.js"></script>
+	  <script src="js/pages.js"></script>
+   </body>
+
+</html>
