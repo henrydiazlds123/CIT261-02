@@ -1,10 +1,72 @@
-// $(document).ready(function(){
-//     //Effects: Hiden elements
-//     $("#btn1").click(function(){
-//         $("table#transactions-table").toggle("slow");  
-//     });
-// });
-function report() {
+// var menu = [
+//     ["Home", "./index.html", false],
+//     ["Expenses", "./expense.html", false],
+//     ["Incomes", "./income.html", false],
+//     ["Reports", "./report.html", false]
+//     // ["Setup", "./setup.html", false]
+// ];
+
+// function menuList(active, type, style) {
+//     var active = typeof active !== 'undefined' ? active : 'Home';
+//     var html = "<ul";
+//     html += " class=" + type + " style=" + style + ">";
+//     for (var i = 0; i < menu.length; i++) {
+//         html += "<li";
+//         if (menu[i][0] == active) {
+//             html += " class='selected'";
+//         }
+//         html += "><a href='" + menu[i][1] + "'";
+//         if (menu[i][2])
+//             html += "onclick='window.open(this.href);return false;'";
+//         html += ">" + menu[i][0] + "<\/a><\/li>";
+//     }
+//     return html + "<\/ul>";
+// }
+
+var menu = [
+    ["Home", "loadTemp('welcome')", false],
+    ["Expenses", "myExpense()", false],
+    ["Incomes", "myIncome()", false],
+    ["Reports", "myReport()", false]
+    // ["Setup", "./setup.html", false]
+];
+
+if (navigator.userAgent.indexOf("IEMobile") >= 0) {
+    document.body.className += " iemobile";
+    window.onscroll = function() {
+        window.scroll(0, 0);
+    };
+}
+
+function menuList(active, type, style) {
+    var active = typeof active !== 'undefined' ? active : 'Home';
+    var html = "<ul";
+    html += " class=" + type + " style=" + style + ">";
+    for (var i = 0; i < menu.length; i++) {
+        html += "<li";
+        if (menu[i][0] == active) {
+            html += " class='selected'";
+        }
+        html += "><a href='#' onclick='"+ menu[i][1] +"'";
+        if (menu[i][2])
+            html += "onclick='window.open(this.href);return false;'";
+        html += ">" + menu[i][0] + "<\/a><\/li>";
+    }
+    return html + "<\/ul>";
+}
+
+function loadTemp(type) {
+    var myTemplate = document.getElementById(type);
+    var clonedTemplate = myTemplate.content.cloneNode(true);
+    document.body.appendChild(clonedTemplate);
+
+    closeMenu();
+}
+
+function myReport() {
+
+    loadTemp('myReport');
+
     var Transactions = {
 
         $table: document.getElementById("transactions-table"),
@@ -58,22 +120,44 @@ function report() {
 
 function addTotal() {
     //Adding a new claas to an element
-    $("tr td:nth-child(5)").addClass("amount"); 
+    // $("tr td:nth-child(5)").addClass("amount");
 
-    var tds = document.getElementsByClassName('amount');
+    // var tds = document.getElementsByClassName('amount');
+    // var sum = 0;
+
+    // if(tds.length){
+    // for (var i = 0; i < tds.length; i++) {
+    //     sum += isNaN(tds[i].innerHTML) ? 0 : parseFloat(tds[i].innerHTML);
+    // }
+
+    var nth = 5;
+    var tds = new Array();
+    var table = document.getElementById('transactions-table');
+    var trs = parseInt(table.getElementsByTagName('tr').length);
+
+    tds = table.getElementsByTagName('td');
+    tdsn = parseInt(tds.length);
+
     var sum = 0;
+    var div = tdsn / trs;
 
-    if(tds.length){
-    for (var i = 0; i < tds.length; i++) {
-        sum += isNaN(tds[i].innerHTML) ? 0 : parseFloat(tds[i].innerHTML);
+    var x = 0;
+    if (trs) {
+        for (var i = 0; i < trs; i++) {
+            x = nth - 1 + (div) * i;
+            sum += isNaN(tds[x].innerHTML) ? 0 : parseFloat(tds[x].innerHTML);
+        }
+
+        //Adding a total row to table
+        document.getElementById('transactions-table').innerHTML +=
+            '<tr><td></td><td></td><td></td><td>Total</td><td>' + sum + '</td><td></td><td></td><td></td></tr>';
     }
-    //Adding a total row to table
-    document.getElementById('transactions-table').innerHTML += 
-    '<tr><td></td><td></td><td></td><td>Total</td><td>' + sum + '</td><td></td><td></td><td></td></tr>';
-}
 }
 
-function income() {
+function myIncome() {
+
+    loadTemp('myIncome');
+
     //Creating a JavaScript Object
     var Transactions = {
         index: window.localStorage.getItem("Transactions:index"),
@@ -210,7 +294,10 @@ function income() {
     Transactions.init();
 }
 
-function expense() {
+function myExpense() {
+
+    loadTemp('myExpense');
+
     var Transactions = {
         index: window.localStorage.getItem("Transactions:index"),
         $table: document.getElementById("transactions-table"),
@@ -344,4 +431,11 @@ function expense() {
         }
     };
     Transactions.init();
+}
+
+function showMenu() {
+    document.getElementById("toggle-menu").className="no-hidden";
+}
+function closeMenu(){
+    document.getElementById("toggle-menu").className="hidden";
 }

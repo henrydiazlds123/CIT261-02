@@ -111,5 +111,5 @@ function report(){
 "</table>"
 }
 function welcome() {
-	document.getElementById("outputarea").innerHTML= "<h1>Welcome</h1><h1>to</h1><h1>Coin Trakker</h1>"
+	document.getElementById("outputarea").innerHTML= "<h1>Welcome</h1><h1>to</h1><h1>Coin Trakker</h1>";
 }

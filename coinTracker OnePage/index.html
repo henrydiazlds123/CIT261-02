@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>CoinTracker</title>
+    <link rel="apple-touch-icon" sizes="57x57" href="./favicon/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="./favicon/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="./favicon/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="./favicon/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="./favicon/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="./favicon/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="./favicon/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="./favicon/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="./favicon/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="./favicon/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="./favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./favicon/favicon-16x16.png">
+    <link rel="manifest" href="./favicon/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="./favicon/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" type="text/css" href="./css/style.css">
+    <script type="text/javascript" src="./js/script.js"></script>
+</head>
+<template id="myExpense">
+    <aside class="left col">
+        <header class="header row">
+            Navigation
+        </header>
+        <nav class="body row scroll-y">
+            <ul class="listview">
+                <li><a href="index.html">Home</a></li>
+                <li class="selected"><a href="javascript:void(0)" onclick="myExpense()">Expenses</a></li>
+                <li><a href="javascript:void(0)" onclick="myIncome()">Incomes</a></li>
+                <li><a href="javascript:void(0)" onclick="myReport()">Reports</a></li>
+            </ul>
+        </nav>
+        <footer class="footer row">
+            Icons go here
+        </footer>
+    </aside>
+    <main class="right col">
+        <header class="header row">
+            <span>CoinTracker</span>
+        </header>
+        <nav class="rmm graphite" data-menu-style="" style="padding: 1.2em; max-width: 561.75px;">
+            <div class="toggled-menu">
+                <div class="rmm-toggled" style="display: block;">
+                    <div class="rmm-toggled-controls">
+                        <div class="rmm-toggled-title" onclick="closeMenu()">CoinTracker</div>
+                        <div id="rmm-button" class="rmm-button" onclick="showMenu()">
+                            <span>&nbsp;</span>
+                            <span>&nbsp;</span>
+                            <span>&nbsp;</span>
+                        </div>
+                    </div>
+                </div>
+                <div id="toggle-menu" class="hidden">
+                    <ul class="rmm-toggled" style="z-index:1000">
+                        <li><a href="index.html">Home</a></li>
+                        <li class="selected"><a href="javascript:void(0)" onclick="myExpense()">Expenses</a></li>
+                        <li<a href="javascript:void(0)" onclick="myIncome()">Incomes</a></li>
+                        <li><a href="javascript:void(0)" onclick="myReport()">Reports</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="top-menu" style="padding: 1.2 em; max-width: 561.75px;">
+                <ul class="rmm-main-list">
+                    <li><a href="index.html">Home</a></li>
+                    <li class="selected"><a href="javascript:void(0)" onclick="myExpense()">Expenses</a></li>
+                    <li><a href="javascript:void(0)" onclick="myIncome()">Incomes</a></li>
+                    <li><a href="javascript:void(0)" onclick="myReport()">Reports</a></li>
+                </ul>
+            </div>
+        </nav>
+        <section class="body row scroll-y">
+            <h1>Expenses</h1>
+            <h2>Transaction Keeper DataBase</h2>
+            <div class="well">
+                <form id="transactions-form" role="form">
+                    <div class="form-group">
+                        <select name="select" id="tipo" class="form-control" style="display:none;">
+                            <option value="Expense">Expense</option>
+                        </select>
+                        <br>
+                        <label for="category">Category</label>
+                        <input type="text" class="form-control" id="category" placeholder="Category" required>
+                        <br>
+                        <label for="item">Item</label>
+                        <input type="text" class="form-control" id="item" placeholder="Provider | Recipient">
+                        <br>
+                        <label for="amount">Amount</label>
+                        <input type="text" class="form-control" id="amount" placeholder="$" required>
+                        <br>
+                        <label for="trans_date">Date</label>
+                        <input type="date" class="form-control" id="trans_date" required>
+                        <br>
+                        <label for="note">Comments</label>
+                        <input type="text" class="form-control" id="note" placeholder="comments">
+                    </div>
+                    <input type="button" class="btn btn-warning" id="transactions-op-discard" value="Discard">
+                    <input type="submit" class="btn btn-success" id="transactions-op-save" value="Save">
+                    <input type="hidden" class="btn btn-primary" id="id_entry" value="0">
+                </form>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-condensed table-hover">
+                    <tr id="transactions-head" class="danger">
+                        <th>ID</th>
+                        <th>Type</th>
+                        <th>Category</th>
+                        <th>Item</th>
+                        <th>Amount</th>
+                        <th>Date</th>
+                        <th>Comments</th>
+                    </tr>
+                    <tbody id="transactions-table">
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        <footer class="footer row">
+            Some status text here
+        </footer>
+    </main>
+</template>
+
+<template id="myIncome">
+    <aside class="left col">
+        <header class="header row">
+            Navigation
+        </header>
+        <nav class="body row scroll-y">
+            <ul class="listview">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="javascript:void(0)" onclick="myExpense()">Expenses</a></li>
+                <li class="selected"><a href="javascript:void(0)" onclick="myIncome()">Incomes</a></li>
+                <li><a href="javascript:void(0)" onclick="myReport()">Reports</a></li>
+            </ul>
+        </nav>
+        <footer class="footer row">
+            Icons go here
+        </footer>
+    </aside>
+    <main class="right col">
+        <header class="header row">
+            <span>CoinTracker</span>
+        </header>
+        <nav class="rmm graphite" data-menu-style="" style="padding: 1.2em; max-width: 561.75px;">
+            <div class="toggled-menu">
+                <div class="rmm-toggled" style="display: block;">
+                    <div class="rmm-toggled-controls">
+                        <div class="rmm-toggled-title" onclick="closeMenu()">CoinTracker</div>
+                        <div id="rmm-button" class="rmm-button" onclick="showMenu()">
+                            <span>&nbsp;</span>
+                            <span>&nbsp;</span>
+                            <span>&nbsp;</span>
+                        </div>
+                    </div>
+                </div>
+                <div id="toggle-menu" class="hidden">
+                    <ul class="rmm-toggled" style="z-index:1000">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="javascript:void(0)" onclick="myExpense()">Expenses</a></li>
+                        <li class="selected"><a href="javascript:void(0)" onclick="myIncome()">Incomes</a></li>
+                        <li><a href="javascript:void(0)" onclick="myReport()">Reports</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="top-menu" style="padding: 1.2 em; max-width: 561.75px;">
+                <ul class="rmm-main-list">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="javascript:void(0)" onclick="myExpense()">Expenses</a></li>
+                    <li class="selected"><a href="javascript:void(0)" onclick="myIncome()">Incomes</a></li>
+                    <li><a href="javascript:void(0)" onclick="myReport()">Reports</a></li>
+                </ul>
+            </div>
+        </nav>
+        <section class="body row scroll-y">
+            <h1>Income</h1>
+            <h2>Transaction Keeper DataBase</h2>
+            <div class="well">
+                <form id="transactions-form" role="form">
+                    <div class="form-group">
+                        <select name="select" id="tipo" class="form-control" style="display:none;">
+                            <option value="Income">Income</option>
+                        </select>
+                        <br>
+                        <label for="category">Category</label>
+                        <input type="text" class="form-control" id="category" placeholder="Category" required>
+                        <br>
+                        <label for="item">Item</label>
+                        <input type="text" class="form-control" id="item" placeholder="Provider | Recipient">
+                        <br>
+                        <label for="amount">Amount</label>
+                        <input type="text" class="form-control" id="amount" placeholder="$" required>
+                        <br>
+                        <label for="trans_date">Date</label>
+                        <input type="date" class="form-control" id="trans_date" required>
+                        <br>
+                        <label for="note">Comments</label>
+                        <input type="text" class="form-control" id="note" placeholder="comments">
+                    </div>
+                    <input type="button" class="btn btn-warning" id="transactions-op-discard" value="Discard">
+                    <input type="submit" class="btn btn-success" id="transactions-op-save" value="Save">
+                    <input type="hidden" class="btn btn-primary" id="id_entry" value="0">
+                </form>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-condensed table-hover">
+                    <tr id="transactions-head" class="success">
+                        <th>ID</th>
+                        <th>Type</th>
+                        <th>Category</th>
+                        <th>Item</th>
+                        <th>Amount</th>
+                        <th>Date</th>
+                        <th>Comments</th>
+                    </tr>
+                    <tbody id="transactions-table">
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        <footer class="footer row">
+            Some status text here
+        </footer>
+    </main>
+</template>
+
+
+<template id="myReport">
+    <aside class="left col">
+        <header class="header row">
+            Navigation
+        </header>
+        <nav class="body row scroll-y">
+            <ul class="listview">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="javascript:void(0)" onclick="myExpense()">Expenses</a></li>
+                <li><a href="javascript:void(0)" onclick="myIncome()">Incomes</a></li>
+                <li class="selected"><a href="javascript:void(0)" onclick="myReport()">Reports</a></li>
+            </ul>
+        </nav>
+        <footer class="footer row">
+            Icons go here
+        </footer>
+    </aside>
+    <!-- ++++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <main class="right col">
+        <header class="header row">
+            <span>CoinTracker</span>
+        </header>
+        <nav class="rmm graphite" data-menu-style="" style="padding: 1.2em; max-width: 561.75px;">
+            <div class="toggled-menu">
+                <div class="rmm-toggled" style="display: block;">
+                    <div class="rmm-toggled-controls">
+                        <div class="rmm-toggled-title" onclick="closeMenu()">CoinTracker</div>
+                        <div id="rmm-button" class="rmm-button" onclick="showMenu()">
+                            <span>&nbsp;</span>
+                            <span>&nbsp;</span>
+                            <span>&nbsp;</span>
+                        </div>
+                    </div>
+                </div>
+                <div id="toggle-menu" class="hidden">
+                    <ul class="rmm-toggled" style="z-index:1000">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="javascript:void(0)" onclick="myExpense()">Expenses</a></li>
+                        <li><a href="javascript:void(0)" onclick="myIncome()">Incomes</a></li>
+                        <li class="selected"><a href="javascript:void(0)" onclick="myReport()">Reports</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="top-menu" style="padding: 1.2 em; max-width: 561.75px;">
+                <ul class="rmm-main-list">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="javascript:void(0)" onclick="myExpense()">Expenses</a></li>
+                    <li><a href="javascript:void(0)" onclick="myIncome()">Incomes</a></li>
+                    <li class="selected"><a href="javascript:void(0)" onclick="myReport()">Reports</a></li>
+                </ul>
+            </div>
+        </nav>
+        <section class="body row scroll-y">
+            <h1>Report</h1>
+            <h2>Transaction Keeper DataBase</h2>
+            <form id="transactions-form" role="form">
+            </form>
+            <div class="table-responsive">
+                <table class="table table-condensed table-striped">
+                    <tr id="transactions-head" class="info">
+                        <th>ID</th>
+                        <th>Type</th>
+                        <th>Category</th>
+                        <th>Item</th>
+                        <th>Amount</th>
+                        <th>Date</th>
+                        <th>Comments</th>
+                    </tr>
+                    <tbody id="transactions-table">
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        <footer class="footer row">
+            Some status text here
+        </footer>
+    </main>
+</template>
+
+
+<body>
+    <aside class="left col">
+        <header class="header row">
+            Navigation
+        </header>
+        <nav class="body row scroll-y">
+            <ul class="listview">
+                <li class="selected"><a href="index.html">Home</a></li>
+                <li><a href="javascript:void(0)" onclick="myExpense()">Expenses</a></li>
+                <li><a href="javascript:void(0)" onclick="myIncome()">Incomes</a></li>
+                <li><a href="javascript:void(0)" onclick="myReport()">Reports</a></li>
+            </ul>
+        </nav>
+        <footer class="footer row">
+            &copy; Copyright - Coin Tracker 2015
+        </footer>
+    </aside>
+    <!-- ++++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <main class="right col">
+        <header class="header row">
+            <span>CoinTracker</span>
+        </header>
+        <nav class="rmm graphite" data-menu-style="" style="padding: 1.2em; max-width: 561.75px;">
+            <div class="toggled-menu">
+                <div class="rmm-toggled" style="display: block;">
+                    <div class="rmm-toggled-controls">
+                        <div class="rmm-toggled-title" onclick="closeMenu()">CoinTracker</div>
+                        <div id="rmm-button" class="rmm-button" onclick="showMenu()">
+                            <span>&nbsp;</span>
+                            <span>&nbsp;</span>
+                            <span>&nbsp;</span>
+                        </div>
+                    </div>
+                </div>
+                <div id="toggle-menu" class="hidden">
+                    <ul class="rmm-toggled" style="z-index:1000">
+                        <li class="selected"><a href="index.html">Home</a></li>
+                        <li><a href="javascript:void(0)" onclick="myExpense()">Expenses</a></li>
+                        <li><a href="javascript:void(0)" onclick="myIncome()">Incomes</a></li>
+                        <li><a href="javascript:void(0)" onclick="myReport()">Reports</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="top-menu" style="padding: 1.2 em; max-width: 561.75px;">
+                <ul class="rmm-main-list">
+                    <li class="selected"><a href="index.html">Home</a></li>
+                    <li><a href="javascript:void(0)" onclick="myExpense()">Expenses</a></li>
+                    <li><a href="javascript:void(0)" onclick="myIncome()">Incomes</a></li>
+                    <li><a href="javascript:void(0)" onclick="myReport()">Reports</a></li>
+                </ul>
+            </div>
+        </nav>
+        <section class="body row scroll-y">
+            <h1>WELCOME</h1>
+            <h2>COIN Tracker</h2>
+            <img class="coin" src="./img/coin.png" alt="coin rotate">
+        </section>
+        <footer class="footer row">
+            Some status text here
+        </footer>
+    </main>
+</body>
+
+</html>
